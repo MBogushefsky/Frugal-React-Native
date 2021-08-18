@@ -6,7 +6,7 @@ import { CreateLinkToken, GetBankAccounts, SavePublicToken } from '../services/R
 import { SScrollView, SText, SView } from '../components/StyledComponents';
 import BankAccount from '../models/BankAccount';
 import { Ionicons } from '@expo/vector-icons';
-import { ConvertToCurrency, ScrambleBankAccountsIfNeeded } from '../services/FoundationService';
+import { ConvertToDirectionalCurrency, ScrambleBankAccountsIfNeeded } from '../services/FoundationService';
 
 export default function LinkedBankAccountsScreen({ navigation }: any) {
   const [loadingToken, setLoadingToken] = React.useState(false);
@@ -74,12 +74,12 @@ export default function LinkedBankAccountsScreen({ navigation }: any) {
               {
                 attemptedLoadingAccounts && !loadingAccounts && loadedAccounts.map((bankAccount: BankAccount) => {
                   if (bankAccount.type == 'depository') {
-                    return <MListItem key={bankAccount.Id} title={bankAccount.name} description={ConvertToCurrency(bankAccount.currentBalance) + ' available'}/>
+                    return <MListItem key={bankAccount.Id} title={bankAccount.name} description={ConvertToDirectionalCurrency(bankAccount.currentBalance) + ' available'}/>
                   }
                   else if (bankAccount.type == 'credit') {
                     return <MListItem key={bankAccount.Id} title={bankAccount.name} 
-                      description={ConvertToCurrency(bankAccount.availableBalance) + ' available, ' + 
-                        ConvertToCurrency(bankAccount.currentBalance) + ' credited'}/>
+                      description={ConvertToDirectionalCurrency(bankAccount.availableBalance) + ' available, ' + 
+                        ConvertToDirectionalCurrency(bankAccount.currentBalance) + ' credited'}/>
                   }
                 })
               }

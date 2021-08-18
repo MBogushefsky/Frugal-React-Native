@@ -1,4 +1,5 @@
 import environment from '../environment/environment';
+import SearchProductFilter from '../models/SearchProductFilter';
 import { ConvertArrayToQueryParams } from './FoundationService';
 
 const apiHost = environment.apiServer;
@@ -29,5 +30,15 @@ export function GetPastMonthTransactionsGrouped(accountIds: string[]) {
 
 export function GetAllTransactionsGrouped(accountIds: string[]) {
     return fetch(apiHost + "/transactions/grouped/all?" + ConvertArrayToQueryParams('account-ids', accountIds));
+}
+
+export function SearchProducts(filter: SearchProductFilter) {
+    return fetch(apiHost + '/products/search', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(filter)
+    });
 }
 

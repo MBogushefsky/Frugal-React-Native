@@ -39,6 +39,7 @@
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
     "react-native-calendars": "^1.1264.0",
+    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-paper": "^4.9.2",
     "react-native-plaid-link-sdk": "^7.0.7",

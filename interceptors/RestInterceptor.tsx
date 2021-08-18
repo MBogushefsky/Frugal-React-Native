@@ -6,7 +6,8 @@ export default function RegisterRestInterceptor(userId: string) {
             if (!url.includes('/logs') && !url.includes('/symbolicate')) {
                 const authorizationHeaders = Object.assign({}, config);
                 authorizationHeaders.headers = new Headers({
-                    'Authorization': userId
+                    'Authorization': userId,
+                    'Accept': 'application/json'
                 });
                 //console.log([url, authorizationHeaders]);
                 return [url, authorizationHeaders];

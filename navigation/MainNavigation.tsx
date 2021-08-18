@@ -11,7 +11,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import LoginScreen from '../screens/LoginScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import SideMenuDrawerNavigator from './SideMenuDrawerNavigator';
+import LeftSideMenuDrawerNavigator from './LeftDrawerNavigator';
 import SignUpScreen from '../screens/SignUpScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,24 +33,24 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const dispatch = useDispatch();
-  const { currentUser } = useSelector((state: any) => state.currentUser);
-  const [isStorageLoaded, setIsStorageLoaded] = React.useState(false);
+  // const dispatch = useDispatch();
+  // const { currentUser } = useSelector((state: any) => state.currentUser);
+  // const [isStorageLoaded, setIsStorageLoaded] = React.useState(false);
 
-  AsyncStorage.getItem('currentUser').then(
-    (value: any) => {
-      if (!isStorageLoaded) {
-        dispatch(setCurrentUser(JSON.parse(value) as CurrentUserData));
-        setIsStorageLoaded(true);
-      }
-    }
-  )
+  // AsyncStorage.getItem('currentUser').then(
+  //   (value: any) => {
+  //     if (!isStorageLoaded) {
+  //       dispatch(setCurrentUser(JSON.parse(value) as CurrentUserData));
+  //       setIsStorageLoaded(true);
+  //     }
+  //   }
+  // )
   
-  if (currentUser != null && currentUser.Id == '') { return null; }
+  // if (currentUser != null && currentUser.Id == '') { return null; }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, animationEnabled: false }} initialRouteName={currentUser != null ? 'Root' : 'Login'}>
-      <Stack.Screen name="Root" component={SideMenuDrawerNavigator} />
+    <Stack.Navigator screenOptions={{ headerShown: false, animationEnabled: false }} initialRouteName="Root">
+      <Stack.Screen name="Root" component={LeftSideMenuDrawerNavigator} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />

@@ -4,7 +4,7 @@ import { TextProps } from './Themed';
 import { Badge, Text } from 'react-native-paper';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { MActivityIndicator, MDivider, MPrimaryButton } from './StyledMaterial';
-import { ConvertToCurrency, GetAmountType, AmountType } from '../services/FoundationService';
+import { ConvertToDirectionalCurrency, GetAmountType, AmountType } from '../services/FoundationService';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export function SView(props: any) {
@@ -105,25 +105,14 @@ export function SCurrencyText(props: any) {
     styleToUse = styles.textCurrencyNegative;
   }
   return <SText {...props} style={[styleToUse, props.style]}>
-      { ConvertToCurrency(currencyValue) }
+      { ConvertToDirectionalCurrency(currencyValue) }
   </SText>;
 }
 
 export function SCurrencyBadge(props: any) {
   let currencyValue = props.value;
-  let amountType = GetAmountType(currencyValue);
-  let styleToUse: any = styles.badgeCurrencyZero;
-  if (props.type != null && props.type == 'credit') {
-    styleToUse = styles.badgeCurrencyCredit;
-  }
-  else if (amountType == AmountType.POSITIVE) {
-    styleToUse = styles.badgeCurrencyPositive;
-  }
-  else if (amountType == AmountType.NEGATIVE) {
-    styleToUse = styles.badgeCurrencyNegative;
-  }
-  return <Badge {...props} style={[styleToUse, styles.badgeCurrency, props.style]}>
-      { ConvertToCurrency(currencyValue) }
+  return <Badge {...props} style={[styles.badgeCurrency, props.style]}>
+      { '$' + currencyValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }
   </Badge>;
 }
 
@@ -216,20 +205,8 @@ const styles = StyleSheet.create({
     color: 'red'
   },
   badgeCurrency: {
-    minWidth: 85
-  },
-  badgeCurrencyPositive: {
-    backgroundColor: 'green'
-  },
-  badgeCurrencyZero: {
-    backgroundColor: 'grey',
-    color: 'white'
-  },
-  badgeCurrencyCredit: {
-    backgroundColor: '#2C778F',
-    color: 'white'
-  },
-  badgeCurrencyNegative: {
-    backgroundColor: 'red'
+    paddingHorizontal: 10,
+    backgroundColor: 'green',
+    fontSize: 16
   }
 });

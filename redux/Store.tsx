@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import Reducers from "./Reducers";
+import { currentUserSliceReducer, drawersSliceReducer, searchFilterSliceReducer } from "./Reducers";
 
 export const store = configureStore({
     reducer: {
-        currentUser: Reducers
+        drawers: drawersSliceReducer,
+        currentUser: currentUserSliceReducer,
+        searchFilter: searchFilterSliceReducer
     }
 });

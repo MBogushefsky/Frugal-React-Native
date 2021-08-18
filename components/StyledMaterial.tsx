@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { ActivityIndicator, Button, Card, Divider, List, TextInput } from 'react-native-paper';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, Button, Card, Checkbox, Divider, IconButton, List, Searchbar, TextInput } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchKeyword, setSearchStore } from '../redux/Reducers';
+import { SText } from './StyledComponents';
 
 export function MCard(props: any) {
     return <Card {...props} 
-          onPress={()=>{}} 
+          onPress={props.onPress} 
           onLongPress={()=>{}} 
           style={[styles.card, props.style]}>
           {props.children}
@@ -46,6 +49,36 @@ export function MListItem(props: any) {
       </List.Item>;
 }
 
+export function MListAccordian(props: any) {
+    return <List.Accordion {...props} 
+          style={[props.style]}>
+          {props.children}
+      </List.Accordion>;
+}
+
+export function MFilterListItem(props: any) {
+    const dispatch = useDispatch();
+
+    function onSelection(value: string) {
+        if (props.id === 'stores') {
+            // dispatch(setSearchStore())
+        }
+    }
+
+    return <MListAccordian title={props.name}>
+            <List.Item {...props} title={ 
+                <View>
+                    { props.options.map((option: any) => 
+                        <MCheckbox key={option.value} label={option.label} status={option.selected} onPress={(props: any) => onSelection(option.value)}>
+                        </MCheckbox>) 
+                    }
+                </View>
+            }>
+            {props.children}
+        </List.Item>
+    </MListAccordian>
+}
+
 export function MDivider(props: any) {
     return <Divider {...props} style={[styles.divider, props.style]}/>;
 }
@@ -55,6 +88,13 @@ export function MTextInput(props: any) {
           style={[styles.textInput, props.style]}>
           {props.children}
       </TextInput>;
+}
+
+export function MCheckbox(props: any) {
+    return <Checkbox.Item {...props} 
+          style={[styles.checkboxItem, props.style]}>
+          {props.children}
+      </Checkbox.Item>;
 }
 
 export function MPrimaryButton(props: any) {
@@ -73,9 +113,50 @@ export function MSecondaryButton(props: any) {
       </Button>;
 }
 
+export function MToggledIconButton(props: any) {
+    return <IconButton
+        {...props}
+        icon={ props.selected ? props.selectedIcon : props.unselectedIcon }
+        style={[props.style]}
+        size={30}/>;
+}
+
+export function MIconButton(props: any) {
+    return <IconButton
+        {...props}
+        style={[props.style]}
+        size={25}/>;
+}
+
 export function MActivityIndicator(props: any) {
     return <ActivityIndicator size={80} color="#08AA97" {...props} 
         style={[styles.activityIndicator, props.style]} />;
+}
+
+export function MSearchBar(props: any) {
+    const dispatch = useDispatch();
+    const { searchFilter } = useSelector((state: any) => state.searchFilter);
+    const [searchQuery, setSearchQuery] = React.useState('');
+
+    function onChangeSearch(query: any) {
+        setSearchQuery(query);
+    };
+
+    function onSubmitSearch(query: any) {
+        dispatch(setSearchKeyword(query));
+    };
+
+    return <Searchbar
+        {...props}
+        style={[styles.searchbar, props.style]}
+        inputStyle={[props.inputStyle]}
+        placeholder="Search"
+        onChangeText={onChangeSearch}
+        onSubmitEditing={() => onSubmitSearch(searchQuery)}
+        autoCorrect={false}
+        autoCapitalize="none"
+        value={searchQuery}
+    />;
 }
 
 const styles = StyleSheet.create({
@@ -138,5 +219,10 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    searchbar: {
+    },
+    checkboxItem: {
+        width: '100%'
     }
 });

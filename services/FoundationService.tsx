@@ -20,14 +20,18 @@ export function GetAmountType(value: number) {
     }
 }
 
-export function ConvertToCurrency(value: number) {
+export function ConvertToDirectionalCurrency(value: number) {
     let amountType = GetAmountType(value);
     if (amountType == AmountType.POSITIVE || amountType == AmountType.ZERO) {
-        return '$' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        return ConvertToCurrency(value);
     }
     else {
-        return '-$' + Math.abs(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        return '-' + ConvertToCurrency(value);
     }
+}
+
+export function ConvertToCurrency(value: number) {
+    return '$' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
 export function ScrambleBankAccountsIfNeeded(bankAccounts: BankAccount[]) {
