@@ -70,4 +70,6 @@ buck-out/
 .expo/
 web-build/
 
-# @end expo-cli
+# @end expo-cli.env
+.env.local
+.env.*.local
